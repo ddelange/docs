@@ -312,10 +312,19 @@ spec:
               istio: ingressgateway
       config:
         istio:
-          gateway.knative-serving.knative-ingress-gateway: "custom-ingressgateway.custom-ns.svc.cluster.local"
+          external-gateways: |
+            - name: knative-ingress-gateway
+              namespace: knative-serving
+              service: custom-ingressgateway.custom-ns.svc.cluster.local
     ```
 
-    The key in `spec.config.istio` is in the format of `gateway.<gateway_namespace>.<gateway_name>`.
+    The key in `spec.config.istio` is in the format of
+    ```
+    external-gateways: |
+      - name: <gateway_name>
+        namespace: <gateway_namespace>
+        service: istio-ingressgateway.istio-system.svc.cluster.local
+    ```
 
 ## Replace the ingress gateway
 
@@ -332,10 +341,19 @@ spec:
     spec:
       config:
         istio:
-          gateway.custom-ns.knative-custom-gateway: "istio-ingressgateway.istio-system.svc.cluster.local"
+          external-gateways: |
+            - name: knative-custom-gateway
+              namespace: custom-ns
+              service: istio-ingressgateway.istio-system.svc.cluster.local
     ```
 
-    The key in `spec.config.istio` is in the format of `gateway.<gateway_namespace>.<gateway_name>`.
+    The key in `spec.config.istio` is in the format of
+    ```
+    external-gateways: |
+      - name: <gateway_name>
+        namespace: <gateway_namespace>
+        service: istio-ingressgateway.istio-system.svc.cluster.local
+    ```
 
 ## Configuration of cluster local gateway
 
@@ -369,7 +387,10 @@ spec:
           custom: custom-local-gateway
   config:
     istio:
-      local-gateway.knative-serving.knative-local-gateway: "custom-local-gateway.istio-system.svc.cluster.local"
+      local-gateways: |
+        - name: knative-local-gateway
+          namespace: knative-serving
+          service: custom-local-gateway.istio-system.svc.cluster.local
 ```
 
 ## Servers configuration for Istio gateways:
@@ -400,14 +421,39 @@ spec:
           - <test-ip>
   config:
     istio:
-      local-gateway.knative-serving.knative-local-gateway: "custom-local-gateway.istio-system.svc.cluster.local"
+      local-gateways: |
+        - name: knative-local-gateway
+          namespace: knative-serving
+          service: custom-local-gateway.istio-system.svc.cluster.local
+```
+
+## Customize kourier-bootstrap for Kourier gateways:
+
+By default, Kourier contains envoy bootstrap configuration in the ConfigMap `kourier-bootstrap`. The `spec.ingress.kourier.bootstrap-configmap` field allows you to specify your customized bootstrap ConfigMap.
+
+This example shows that Kourier Gateawy uses `my-configmap` for the envoy bootstrap config.
+
+```yaml
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  config:
+    network:
+      ingress-class: kourier.ingress.networking.knative.dev
+  ingress:
+    kourier:
+      bootstrap-configmap: my-configmap
+      enabled: true
 ```
 
 ## High availability
 
 By default, Knative Serving runs a single instance of each deployment. The `spec.high-availability` field allows you to configure the number of replicas for all deployments managed by the operator.
 
-The following configuration specifies a replica count of 3 for the deployments:
+The following configuration specifies a replica count of 3 for the workloads:
 
 ```yaml
 apiVersion: operator.knative.dev/v1beta1
@@ -459,7 +505,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  deployments:
+  workloads:
   - name: controller
     resources:
     - container: controller
@@ -490,7 +536,7 @@ metadata:
 spec:
   high-availability:
     replicas: 2
-  deployments:
+  workloads:
   - name: webhook
     replicas: 3
     labels:
@@ -522,7 +568,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  deployments:
+  workloads:
   - name: webhook
     nodeSelector:
       disktype: hdd
@@ -556,7 +602,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  deployments:
+  workloads:
   - name: activator
     tolerations:
     - key: "key1"
@@ -598,7 +644,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  deployments:
+  workloads:
   - name: activator
     affinity:
       nodeAffinity:
@@ -626,7 +672,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 spec:
-  deployments:
+  workloads:
   - name: controller
     env:
     - container: controller

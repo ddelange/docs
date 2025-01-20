@@ -1,6 +1,12 @@
-**Authors: [Lionel Villard](https://github.com/lionelvillard) (IBM), [Kenjiro Nakayama](https://github.com/nak3) (Red Hat)**
-
-**Date: 2022-10-22**
+---
+title: "v1.8 release"
+linkTitle: "v1.8 release"
+author: "[Lionel Villard (IBM)](https://github.com/lionelvillard) and [Kenjiro Nakayama (Red Hat)](https://github.com/nak3)"
+author handle: https://github.com/TODO-YOUR-USERNAME
+date: 2022-10-22
+description: "Knative v1.8 release announcement"
+type: "blog"
+---
 
 # Announcing Knative 1.8 Release
 
@@ -26,7 +32,7 @@ This release brings a number of smaller improvements to the core Knative Serving
 
 ### 💫 New Release
 
-* [Security-Guard Alpha](https://github.com/knative-sandbox/security-guard/releases/tag/v0.2.0) is now released to allow cyber monitoring and control of knative services.
+* [Security-Guard Alpha](https://github.com/knative-extensions/security-guard/releases/tag/v0.2.0) is now released to allow cyber monitoring and control of knative services.
 
 ## Serving
 

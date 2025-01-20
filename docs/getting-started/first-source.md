@@ -22,12 +22,9 @@ Create the CloudEvents Player Service:
     ```
     !!! Success "Expected output"
         ```{ .bash .no-copy }
-        Service 'cloudevents-player' created to latest revision 'cloudevents-player-vwybw-1' is available at URL:
+        Service 'cloudevents-player' created to latest revision 'cloudevents-player-00001' is available at URL:
         http://cloudevents-player.default.${LOADBALANCER_IP}.sslip.io
         ```
-
-    ??? question "Why is my Revision named something different!"
-        Because we didn't assign a `revision-name`, Knative Serving automatically created one for us. It's okay if your Revision is named something different.
 
 === "YAML"
     1. Copy the following YAML into a file named `cloudevents-player.yaml`:
@@ -123,7 +120,7 @@ for example, [http://cloudevents-player.default.127.0.0.1.sslip.io](http://cloud
 
 Try sending an event using the CloudEvents Player interface:
 
-1. Fill in the form with whatever you data you want.
+1. Fill in the form with whatever data you want.
 1. Ensure your Event Source does not contain any spaces.
 1. Click **SEND EVENT**.
 

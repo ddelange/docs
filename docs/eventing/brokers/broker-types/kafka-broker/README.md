@@ -6,7 +6,7 @@ Notable features are:
 
 - Control plane High Availability
 - Horizontally scalable data plane
-- [Extensively configurable](#kafka-producer-and-consumer-configurations)
+- [Extensively configurable](./configuring-kafka-features)
 - Ordered delivery of events based on [CloudEvents partitioning extension](https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/extensions/partitioning.md)
 - Support any Kafka version, see [compatibility matrix](https://cwiki.apache.org/confluence/display/KAFKA/Compatibility+Matrix)
 - Supports 2 [data plane modes](#data-plane-isolation-vs-shared-data-plane): data plane isolation per-namespace or shared data plane
@@ -26,13 +26,13 @@ The Knative Kafka Broker stores incoming CloudEvents as Kafka records, using the
 1. Install the Kafka controller by entering the following command:
 
     ```bash
-    kubectl apply --filename {{ artifact(org="knative-sandbox", repo="eventing-kafka-broker", file="eventing-kafka-controller.yaml") }}
+    kubectl apply --filename {{ artifact(org="knative-extensions", repo="eventing-kafka-broker", file="eventing-kafka-controller.yaml") }}
     ```
 
 1. Install the Kafka Broker data plane by entering the following command:
 
     ```bash
-    kubectl apply --filename {{ artifact(org="knative-sandbox", repo="eventing-kafka-broker", file="eventing-kafka-broker.yaml") }}
+    kubectl apply --filename {{ artifact(org="knative-extensions", repo="eventing-kafka-broker", file="eventing-kafka-broker.yaml") }}
     ```
 
 1. Verify that `kafka-controller`, `kafka-broker-receiver` and `kafka-broker-dispatcher` are running,
@@ -112,6 +112,26 @@ different `name` on your Kafka Broker's `spec.config` field.
 
 !!! note
     The `default.topic.replication.factor` value must be less than or equal to the number of Kafka broker instances in your cluster. For example, if you only have one Kafka broker, the `default.topic.replication.factor` value should not be more than `1`.
+
+Knative supports the [full set of topic config options that your version of Kafka supports](https://kafka.apache.org/documentation/#topicconfigs). To set any of these, you need to add a key to the configmap with the `default.topic.config.` prefix.
+For example, to set the `retention.ms` value you would modify the `ConfigMap` to look like the following:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-broker-config
+  namespace: knative-eventing
+data:
+  # Number of topic partitions
+  default.topic.partitions: "10"
+  # Replication factor of topic messages.
+  default.topic.replication.factor: "3"
+  # A comma separated list of bootstrap servers. (It can be in or out the k8s cluster)
+  bootstrap.servers: "my-cluster-kafka-bootstrap.kafka:9092"
+  # Here is our retention.ms config
+  default.topic.config.retention.ms: "3600"
+```
 
 ## Set as default broker implementation
 
@@ -440,11 +460,15 @@ Upon the creation of the first `Broker` with `KafkaNamespaced` class, the `kafka
 
 All the configuration mechanisms that are available for the `Kafka` Broker class are also available for the brokers with `KafkaNamespaced` class with these exceptions:
 
-* [Above](#kafka-producer-and-consumer-configurations) it is described how producer and consumer configurations is done by modifying the `config-kafka-broker-data-plane` configmap in the `knative-eventing` namespace. Since Kafka Broker controller propagates this configmap into the user namespace, currently there is no way to configure producer and consumer configurations per namespace. Any value set in the `config-kafka-broker-data-plane` `ConfigMap` in the `knative-eventing` namespace will be also used in the user namespace.
+* [This page](./configuring-kafka-features) describes how producer and consumer configurations is done by modifying the `config-kafka-broker-data-plane` configmap in the `knative-eventing` namespace. Since Kafka Broker controller propagates this configmap into the user namespace, currently there is no way to configure producer and consumer configurations per namespace. Any value set in the `config-kafka-broker-data-plane` `ConfigMap` in the `knative-eventing` namespace will be also used in the user namespace.
 * Because of the same propagation, it is also not possible to configure consumer offsets commit interval per namespace.
 * A few more configmaps are propagated: `config-tracing` and `kafka-config-logging`. This means, tracing and logging are also not configurable per namespace.
 * Similarly, the data plane deployments are propagated from the `knative-eventing` namespace to the user namespace. This means that the data plane deployments are not configurable per namespace and will be identical to the ones in the `knative-eventing` namespace.
 
+### Enabling and configuring autoscaling of triggers with KEDA
+
+To enable and configreu autoscaling of triggers referencing Kafka Brokers with KEDA, follow [the instructions here](../../../configuration/keda-configuration.md).
+
 ## Additional information
 
-- To report a bug or request a feature, open an issue in the [eventing-kafka-broker repository](https://github.com/knative-sandbox/eventing-kafka-broker).
+- To report a bug or request a feature, open an issue in the [eventing-kafka-broker repository](https://github.com/knative-extensions/eventing-kafka-broker).

@@ -2,8 +2,6 @@
 
 **Authors: Daniele Zonca, Senior Principal Software Engineer @ Red Hat, Matthias Weßendorf, Senior Principal Software Engineer @ Red Hat**
 
-**Date: 2023-04-03**
-
 _In this blog post you will learn how to easily store incoming CloudEvents to an Apache Kafka Topic and using Knative Broker and Trigger APIs for content-based event routing._
 
 
@@ -151,7 +149,7 @@ For `Trigger`s that are executed by a Knative Broker for Apache Kafka it is also
 
 ### Kn Event Plugin
 
-For sending an event we also do not need to make use of the Apache Kafka Producer API, since we are ingesting CloudEvents to the Broker, using HTTP. As one option we could use a `Pod` inside the Kubernetes cluster with the `curl` program installed and send an event to the `URL` of the `Broker`. However, instead we are using the [`kn` client CLI](https://github.com/knative/client) with its [event plugin](https://github.com/knative-sandbox/kn-plugin-event) for managing cloud events from command line:
+For sending an event we also do not need to make use of the Apache Kafka Producer API, since we are ingesting CloudEvents to the Broker, using HTTP. As one option we could use a `Pod` inside the Kubernetes cluster with the `curl` program installed and send an event to the `URL` of the `Broker`. However, instead we are using the [`kn` client CLI](https://github.com/knative/client) with its [event plugin](https://github.com/knative-extensions/kn-plugin-event) for managing cloud events from command line:
 
 ```
 kn event send \

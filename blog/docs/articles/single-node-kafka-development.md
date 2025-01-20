@@ -2,8 +2,6 @@
 
 **Author: Matthias Weßendorf, Principal Software Engineer @ Red Hat**
 
-**Date: 2023-01-12**
-
 _In this blog post you will learn how to use a production-like environment for your local development with Knative Broker and Apache Kafka._
 
 The [Knative Broker implementation for Apache Kafka](https://knative.dev/docs/eventing/brokers/broker-types/kafka-broker/) is a Kafka-native implementation of the [Knative Broker APIs](https://knative.dev/docs/eventing/brokers/), offering improvements over the usage of the Channel-based Knative Broker implementation, such as reduced network hops, support of any Kafka version and a better integration with Apache Kafka for the Broker and Trigger model.
@@ -125,8 +123,8 @@ eventing-webhook-8db49d6cc-4f847           1/1     Running   0          2h1m
 As the next step we need to install the control- and data-plane for the Knative Kafka broker:
 
 ```bash
-kubectl apply --filename https://github.com/knative-sandbox/eventing-kafka-broker/releases/download/knative-v1.8.4/eventing-kafka-controller.yaml
-kubectl apply --filename https://github.com/knative-sandbox/eventing-kafka-broker/releases/download/knative-v1.8.4/eventing-kafka-broker.yaml
+kubectl apply --filename https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.8.4/eventing-kafka-controller.yaml
+kubectl apply --filename https://github.com/knative-extensions/eventing-kafka-broker/releases/download/knative-v1.8.4/eventing-kafka-broker.yaml
 ```
 
 Afterwards we have four new pods in our `knative-eventing` namespace, for our Knative Kafka Broker:

@@ -27,7 +27,7 @@ set -x
 # 1) Make a release-NN branch as normal.
 # 2) Update VERSIONS below (on main) to include the new version, and remove the oldest
 #    Order matters :-), Most recent first.
-VERSIONS=("1.10" "1.9" "1.8") # Docs version, results in the url e.g. knative.dev/docs-1.9/..
+VERSIONS=("1.16" "1.15" "1.14") # Docs version, results in the url e.g. knative.dev/docs-1.9/..
 # 4) PR the result to main.
 # 5) Party.
 
@@ -94,7 +94,7 @@ fi
 
 # Create the blog
 # TODO copy templates, stylesheets, etc. into blog directory
-cp -r overrides blog/
+cp -rn overrides blog/
 cp -r docs/images docs/stylesheets blog/docs/
 pushd blog; mkdocs build -f mkdocs.yml -d "$SITE/blog"; popd
 

@@ -1,7 +1,12 @@
-**Authors: [Evan Anderson](https://twitter.com/e_k_anderson) (VMware), Paul Schweigert (IBM)**
-
-**Date: 2022-07-12**
-
+---
+title: "v1.6 release"
+linkTitle: "v1.6 release"
+author: "[Evan Anderson (VMWare)](https://twitter.com/e_k_anderson) and Paul Schweigert (IBM)"
+author handle: https://github.com/e_k_anderson
+date: 2022-07-12
+description: "Knative v1.6 release announcement"
+type: "blog"
+---
 # Announcing Knative 1.6 Release
 
 A new version of Knative is now available across multiple components.
@@ -69,22 +74,22 @@ This release brings a number of smaller improvements to the core Knative Serving
 
 #### 💫 New Features & Changes
 
-* Add a new experimental configuration parameter to separate internal traffic for different namespaces by TCP port. This should enable use of NetworkPolicy with Knative. [#852](https://github.com/knative-sandbox/net-kourier/pull/852)
-* Experimentally enable filtered secret watches when using AutoTLS. This should provide performance improvements in large clusters. [#862](https://github.com/knative-sandbox/net-kourier/pull/862)
+* Add a new experimental configuration parameter to separate internal traffic for different namespaces by TCP port. This should enable use of NetworkPolicy with Knative. [#852](https://github.com/knative-extensions/net-kourier/pull/852)
+* Experimentally enable filtered secret watches when using AutoTLS. This should provide performance improvements in large clusters. [#862](https://github.com/knative-extensions/net-kourier/pull/862)
 
 ### 🐞 Bug Fixes
 
-* Fix SNI when using `proxy_protocol`. [#869](https://github.com/knative-sandbox/net-kourier/pull/869)
+* Fix SNI when using `proxy_protocol`. [#869](https://github.com/knative-extensions/net-kourier/pull/869)
 
 ### Gateway-API plugin
 
 #### 💫 New Features & Changes
 
-* Adds support for AutoTLS [#316](https://github.com/knative-sandbox/net-gateway-api/pull/316)
+* Adds support for AutoTLS [#316](https://github.com/knative-extensions/net-gateway-api/pull/316)
 
 ### 🐞 Bug Fixes
 
-* Network programming probes now respect the Service port of the gateway. [#310](https://github.com/knative-sandbox/net-gateway-api/pull/310)
+* Network programming probes now respect the Service port of the gateway. [#310](https://github.com/knative-extensions/net-gateway-api/pull/310)
 
 ## Eventing Extensions
 
@@ -92,26 +97,26 @@ This release brings a number of smaller improvements to the core Knative Serving
 
 #### 🐞 Bug Fixes
 
-* Deletion of KafkaSource resources now properly cleans up internal scheduling resources. [#1206](https://github.com/knative-sandbox/eventing-kafka/pull/1206)
+* Deletion of KafkaSource resources now properly cleans up internal scheduling resources. [#1206](https://github.com/knative-extensions/eventing-kafka/pull/1206)
 
 
 ### RabbitMQ Broker and Source
 
 #### Breaking Changes
 
-* Some deprecated fine-grained configuration options have been removed from RabbitMQSource. [#800](https://github.com/knative-sandbox/eventing-rabbitmq/pull/800)
-* RabbitMQSource now uses a RabbitCluster reference like the Broker. [#801](https://github.com/knative-sandbox/eventing-rabbitmq/pull/801)
-* RabbitMQSource parameters have been re-arranged into logical groups. [#810](https://github.com/knative-sandbox/eventing-rabbitmq/pull/810)
+* Some deprecated fine-grained configuration options have been removed from RabbitMQSource. [#800](https://github.com/knative-extensions/eventing-rabbitmq/pull/800)
+* RabbitMQSource now uses a RabbitCluster reference like the Broker. [#801](https://github.com/knative-extensions/eventing-rabbitmq/pull/801)
+* RabbitMQSource parameters have been re-arranged into logical groups. [#810](https://github.com/knative-extensions/eventing-rabbitmq/pull/810)
 
 #### 💫 New Features & Changes
 
-* Message pre-fetch is now automatically set to 100, increasing steady-state throughput. [#856](https://github.com/knative-sandbox/eventing-rabbitmq/pull/856)
-* Added the ability to configure queue types in RabbitmqBrokerConfig. [#808](https://github.com/knative-sandbox/eventing-rabbitmq/pull/803)
-* Support for RabbitMQ ClusterReference connection secrets. [#822](https://github.com/knative-sandbox/eventing-rabbitmq/pull/822)
+* Message pre-fetch is now automatically set to 100, increasing steady-state throughput. [#856](https://github.com/knative-extensions/eventing-rabbitmq/pull/856)
+* Added the ability to configure queue types in RabbitmqBrokerConfig. [#808](https://github.com/knative-extensions/eventing-rabbitmq/pull/803)
+* Support for RabbitMQ ClusterReference connection secrets. [#822](https://github.com/knative-extensions/eventing-rabbitmq/pull/822)
 
 #### 🐞 Bug Fixes
 
-* Fixed a bug where RabbitMQSource objects with `retries` configured could crash when receiving an error from the event destination. [#831](https://github.com/knative-sandbox/eventing-rabbitmq/pull/831)
+* Fixed a bug where RabbitMQSource objects with `retries` configured could crash when receiving an error from the event destination. [#831](https://github.com/knative-extensions/eventing-rabbitmq/pull/831)
 
 
 ## Thank you, contributors

@@ -26,9 +26,9 @@ import (
 )
 
 var (
-	knativeOrgs        = []string{"knative", "knative-sandbox"}
+	knativeOrgs        = []string{"knative", "knative-extensions"}
 	allowedRepoRe      = regexp.MustCompile("^[a-z][-a-z0-9]+$")
-	archivedExceptions = []string{"eventing-contrib"}
+	archivedExceptions = []string{"eventing-contrib", "control-protocol"}
 	ignoreRepos        = []string{
 		"actions",
 		"community",
@@ -44,7 +44,7 @@ var (
 	redirectingGoRepos = []string{"pkg", "serving", "security-guard"}
 
 	repoToModule = map[string]string{
-		"func-go": "runtime",
+		"func-go": "func-go",
 	}
 )
 

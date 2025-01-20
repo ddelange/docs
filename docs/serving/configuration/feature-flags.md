@@ -105,6 +105,36 @@ spec:
           image: gcr.io/knative-samples/helloworld-java
 ```
 
+### Multiple Container Probing
+
+* **Type**: Feature
+* **ConfigMap key:** `multi-container-probing`
+
+This flag allows specifying probes (readiness/liveness) for multiple containers in a Knative Service spec.
+Please use this feature flag in combination with [multiple containers](#multiple-containers) above.
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+...
+spec:
+  template:
+    spec:
+      containers:
+        - name: first-container
+          image: ghcr.io/knative/helloworld-go:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: 8080
+        - name: second-container
+          image: gcr.io/knative-samples/helloworld-java
+          readinessProbe:
+            httpGet:
+              port: 8090
+```
+
 ### Kubernetes EmptyDir Volume
 
 * **Type**: Extension
@@ -486,6 +516,7 @@ spec:
 * **ConfigMap key:** `kubernetes.podspec-schedulername`
 
 This flag controls whether a [`scheduler name`](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) can be specified.
+
 ```yaml
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -495,5 +526,85 @@ spec:
     spec:
       ...
       schedulerName: custom-scheduler-example
+...
+```
+
+### Kubernetes Share Process Namespace
+
+* **Type**: Extension
+* **ConfigMap key:** `kubernetes.podspec-shareprocessnamespace`
+
+This flag controls whether the [share process namespace](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/) can be used.
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+...
+spec:
+  template:
+    spec:
+      ...
+      shareProcessNamespace: true
+...
+```
+
+!!! warning
+
+    `shareProcessNamespace` and `hostPID` cannot both be set.
+
+### Kubernetes Host IPC
+
+* **Type**: Extension
+* **ConfigMap key:** `kubernetes.podspec-hostipc`
+
+This flag controls whether the host's ipc namespace can be used.
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+...
+spec:
+  template:
+    spec:
+      ...
+      hostIPC: true
+...
+```
+
+### Kubernetes Host PID
+
+* **Type**: Extension
+* **ConfigMap key:** `kubernetes.podspec-hostpid`
+
+This flag controls whether the host's pid can be used.
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+...
+spec:
+  template:
+    spec:
+      ...
+      hostPID: true
+...
+```
+
+### Kubernetes Host Network
+
+* **Type**: Extension
+* **ConfigMap key:** `kubernetes.podspec-hostnetwork`
+
+This flag controls whether the host's network namespace can be used.
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+...
+spec:
+  template:
+    spec:
+      ...
+      hostNetwork: true
 ...
 ```

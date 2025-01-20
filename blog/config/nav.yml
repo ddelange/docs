@@ -9,14 +9,18 @@ nav:
     - Knative CLI: /docs/client/
     - Code samples: /docs/samples/
     - Reference: /docs/reference/security/
-    - Community: /docs/community/
-    - About: /docs/about/testimonials/
   #####################################################
     # Blog
   #####################################################
     - Blog:
       - index.md
       - Releases:
+          - releases/announcing-knative-v1-16-release.md
+          - releases/announcing-knative-v1-15-release.md
+          - releases/announcing-knative-v1-14-release.md
+          - releases/announcing-knative-v1-13-release.md
+          - releases/announcing-knative-v1-12-release.md
+          - releases/announcing-knative-v1-11-release.md
           - releases/announcing-knative-v1-10-release.md
           - releases/announcing-knative-v1-9-release.md
           - releases/announcing-knative-v1-8-release.md
@@ -45,6 +49,29 @@ nav:
           - releases/announcing-knative-v0-3-release.md
           - releases/announcing-knative-v0-2-release.md
       - Articles:
+          - articles/configurable-runtimeclassnames.md
+          - articles/How_Conxai_uses_Knative_Eventing_to_provide_AI_APIs_in_the_construction_industry.md
+          - articles/consuming_sqs_data_with_integrationsource.md
+          - articles/knative-backstage-security.md
+          - articles/Knative-Serving-WebSockets.md
+          - articles/Building-Stateful-applications-with-Knative-and-Restate.md
+          - articles/llm-agents-demo.md
+          - articles/llm-agents-overview.md
+          - articles/cross-namespace-event-links-feature.md
+          - articles/aws_to_func_migration.md
+          - articles/consuming_s3_data_with_knative.md
+          - articles/How-IBM-watsonx-Assistant-uses-Knative-Eventing-to-train-machine-learning-models.md
+          - articles/enhancing-the-knative-experience.md
+          - articles/knative-meets-apache-camel.md
+          - articles/knative-backstage-plugins.md
+          - articles/demystifying-activator-on-path.md
+          - articles/knative-eventing-vision.md
+          - articles/new_event_discovery_features.md
+          - articles/getting-started-blog-p3.md
+          - articles/getting-started-blog-p2.md
+          - articles/getting-started-blog-p1.md
+          - articles/getting-started-blog-p0.md
+          - articles/improved-ha-configuration.md
           - articles/from-cloudevent-to-apache-kafka-records-part-two.md
           - articles/knative-serving-in-k0s.md
           - articles/from-cloudevent-to-apach-kafka-records-part-one.md
@@ -64,6 +91,7 @@ nav:
           - articles/ko-fast-kubernetes-microservice-development-in-go.md
           - articles/build-deploy-manage-modern-serverless-workloads-using-knative-on-kubernetes.md
       - Steering Committee:
+          - steering/2024-02-14-trademark-committee-dissolved.md
           - steering/toc-2022-election-announcement.md
           - steering/2022-04-14-annual-report-2021.md
           - steering/knative-and-endusers.md
@@ -79,6 +107,9 @@ nav:
           - steering/2020-01-annual-report-2019.md
           - steering/2019-12-updates.md
       - Events:
+          - events/security-audit-2023.md
+          - events/knative-at-kubecon-na-2023.md
+          - events/fuzzing-audit-2023.md
           - events/knative-projectmeeting-kubecon-eu-2023.md
           - events/google-summer-of-code-2023.md
           - events/virtual-office-hour-12-2022.md
@@ -87,3 +118,7 @@ nav:
           - events/install-fest-04-2022.md
           - events/knative-at-kubecon-eu-2019.md
           - events/knative-at-kubecon-seattle.md
+    #####################################################          
+    # keep the same order as on the main page
+    - About: /docs/about/testimonials/
+    - Community: /docs/community/

@@ -84,7 +84,7 @@ cd knative-docs/code-samples/serving/hello-world/helloworld-java-spring
 
     ```docker
     # Use the official maven/Java 8 image to create a build artifact: https://hub.docker.com/_/maven
-    FROM maven:3.5-jdk-8-alpine as builder
+    FROM maven:3.5-jdk-8-alpine AS builder
 
     # Copy local code to the container image.
     WORKDIR /app
@@ -113,11 +113,8 @@ cd knative-docs/code-samples/serving/hello-world/helloworld-java-spring
 1. Use Docker to build the sample code into a container, then push the container to the Docker registry:
 
     ```bash
-    # Build the container on your local machine
-    docker build -t {username}/helloworld-java-spring .
-
-    # Push the container to docker registry
-    docker push {username}/helloworld-java-spring
+    # Build and push the container on your local machine.
+    docker buildx build --platform linux/arm64,linux/amd64 -t "{username}/helloworld-java-spring" --push .
     ```
    Where `{username}` is your Docker Hub username.
 

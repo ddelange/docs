@@ -11,27 +11,29 @@ stored in the topic partitions. It does this by waiting for a successful respons
 1. Install the `KafkaSource` controller by entering the following command:
 
     ```bash
-    kubectl apply -f {{ artifact(org="knative-sandbox", repo="eventing-kafka-broker", file="eventing-kafka-controller.yaml") }}
+    kubectl apply -f {{ artifact(org="knative-extensions", repo="eventing-kafka-broker", file="eventing-kafka-controller.yaml") }}
     ```
 
 1. Install the Kafka Source data plane by entering the following command:
 
     ```bash
-    kubectl apply -f {{ artifact(org="knative-sandbox", repo="eventing-kafka-broker", file="eventing-kafka-source.yaml") }}
+    kubectl apply -f {{ artifact(org="knative-extensions", repo="eventing-kafka-broker", file="eventing-kafka-source.yaml") }}
     ```
 
 1. Verify that `kafka-controller` and `kafka-source-dispatcher` are running,
    by entering the following command:
 
     ```bash
-    kubectl get deployments.apps -n knative-eventing
+    kubectl get deployments.apps,statefulsets.apps -n knative-eventing
     ```
 
     Example output:
     ```{ .bash .no-copy }
-    NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
-    kafka-controller               1/1     1            1           3s
-    kafka-source-dispatcher        1/1     1            1           4s
+    NAME                                           READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/kafka-controller               1/1     1            1           3s
+   
+    NAME                                       READY   AGE
+    statefulset.apps/kafka-source-dispatcher   1/1     3s
     ```
 
 ## Optional: Create a Kafka topic
@@ -204,6 +206,9 @@ Alternatively, if you are using a GitOps approach, you can add the `consumers` k
 
 ```
 
+### Automatic Scaling with KEDA
+
+You are able to autoscale the KafkaSource with KEDA. For information on how to enable and configure this feature, please read [the instructions here](../../configuration/keda-configuration.md).
 
 ### Verify
 
@@ -241,6 +246,41 @@ Alternatively, if you are using a GitOps approach, you can add the `consumers` k
           "msg": "This is a test!"
         }
     ```
+
+## Handling Delivery Failures
+
+The `KafkaSource` implements the `Delivery` Specificiation, allowing you to configure event delivery parameters for it, which are applied in cases where an event fails to be delivered:
+
+```yaml
+
+    apiVersion: sources.knative.dev/v1beta1
+    kind: KafkaSource
+    metadata:
+      name: kafka-source
+    spec:
+      consumerGroup: knative-group
+      bootstrapServers:
+      - my-cluster-kafka-bootstrap.kafka:9092 # note the kafka namespace
+      topics:
+      - knative-demo-topic
+      delivery:
+        deadLetterSink:
+          ref:
+            apiVersion: serving.knative.dev/v1
+            kind: Service
+            name: example-sink
+        backoffDelay: <duration>
+        backoffPolicy: <policy-type>
+        retry: <integer>
+      sink:
+        ref:
+          apiVersion: serving.knative.dev/v1
+          kind: Service
+          name: event-display
+
+```
+
+The `delivery` API is discussed in the [Handling Delivery Failure](../../event-delivery) chapter.
 
 ## Optional: Specify the key deserializer
 

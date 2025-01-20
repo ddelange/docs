@@ -5,16 +5,18 @@ You can install the Serving component, Eventing component, or both on your clust
 
 The following table describes the supported versions of Serving and Eventing for the Knative Operator:
 
-| Operator | Serving                                                                                                                                                   | Eventing                                                                                                                                                                                                                                  |
-|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| v1.10    | v1.10.0<br/>v1.9.0, v1.9.1, v1.9.2 and v1.9.3<br/>v1.8.0, v1.8.1, v1.8.2, v1.8.3, v1.8.4, v1.8.5 and v1.8.6<br/>v1.7.0, v1.7.1, v1.7.2, v1.7.3 and v1.7.4 | v1.10.0<br/>v1.9.0, v1.9.1, v1.9.2, v1.9.3, v1.9.4, v1.9.5, v1.9.6 and v1.9.7<br/>v1.8.0, v1.8.1, v1.8.2, v1.8.3, v1.8.4, v1.8.5, v1.8.6, v1.8.7 and v1.8.8<br/>v1.7.0, v1.7.1, v1.7.2, v1.7.3, v1.7.4, v1.7.5, v1.7.6, v1.7.7 and v1.7.8 |
+| Operator | Serving                                                                                                    | Eventing                                                                                                                                                                                                               |
+|----------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| v1.16    | v1.16.0<br/>v1.15.0, v1.15.1 and v1.15.2<br/>v1.14.0, v1.14.1 and v1.14.2<br/>v1.13.0, v1.13.1 and v1.13.2 | v1.16.0<br/>v1.15.0, v1.15.1, v1.15.2 and v1.15.3<br/>v1.14.0, v1.14.1, v1.14.2, v1.14.3, v1.14.4, v1.14.5, v1.14.6 and v1.14.7<br/>v1.13.0, v1.13.1, v1.13.2, v1.13.3, v1.13.4, v1.13.5, v1.13.6, v1.13.7 and v1.13.8 |
 
 --8<-- "prerequisites.md"
---8<-- "security-prereqs-images.md"
+{% include "security-prereqs-images.md" %}
 
 ## Install the Knative Operator
 
-Before you install the Knative Serving and Eventing components, first install the Knative Operator.
+Before you install the Knative Serving and Eventing components, first install the Knative Operator from the provided K8S Manifests, or via Helm.
+
+### Install K8S Manifests (Option 1)
 
 !!! warning
     Knative Operator 1.5 is the last version that supports CRDs with both `v1alpha1` and `v1beta1`. If you are upgrading an existing Operator install from v1.2 or earlier to v1.3 or later, run the following command to upgrade the existing custom resources to `v1beta1` before installing the current version:
@@ -30,6 +32,21 @@ kubectl apply -f {{artifact(org="knative",repo="operator",file="operator.yaml" )
 ```
 
 You can find information about the released versions of the Knative Operator on the [releases page](https://github.com/knative/operator/releases).
+
+### Install via Helm (Option 2)
+
+You can install the Knative Operator with our helm chart:
+
+```
+helm repo add knative-operator https://knative.github.io/operator
+helm install knative-operator knative-operator/knative-operator
+```
+
+To see available values, run:
+
+```
+helm show values knative-operator/knative-operator
+```
 
 ### Verify your Knative Operator installation
 
@@ -161,7 +178,10 @@ Knative Serving with different ingresses:
               # ...
               config:
                 istio:
-                  local-gateway.<local-gateway-namespace>.knative-local-gateway: "knative-local-gateway.<istio-namespace>.svc.cluster.local"
+                  local-gateways: |
+                    - name: knative-local-gateway
+                      namespace: <local-gateway-namespace>
+                      service: knative-local-gateway.<istio-namespace>.svc.cluster.local
             ```
 
             Where:
